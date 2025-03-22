@@ -1,20 +1,9 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
 import BelargLogo from "../public/Brand_Logos/Belarg_Mark.svg";
 import Leather1 from "../public/Leather_Textures/L1.jpg";
+import SignupForm from "./components/SignupForm";
+
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here we'll add email collection logic later
-    setIsSubmitted(true);
-    setEmail("");
-  };
-
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Parallax leather texture background */}
@@ -23,7 +12,6 @@ export default function Home() {
         style={{
           backgroundImage: `url(${Leather1.src})`,
           backgroundBlendMode: "overlay",
-          backgroundSize: "400px 400px",
           opacity: 0.45,
         }}
       />
@@ -53,41 +41,10 @@ export default function Home() {
             embodying timeless elegance and unparalleled quality.
           </p>
 
-          <div className="mx-auto max-w-2xl px-4">
-            <div className="p-4 md:p-8 rounded-xl backdrop-blur-sm">
-              {!isSubmitted ? (
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full"
-                >
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                    className="flex-1 placeholder:text-black px-4 md:px-6 py-3 bg-white/90 text-black rounded-md border border-[var(--accent)]/20 focus:outline-none focus:border-[var(--accent)] font-[family-name:var(--font-poppins)] text-sm md:text-base"
-                  />
-                  <button
-                    type="submit"
-                    className="btn-primary whitespace-nowrap text-sm md:text-base"
-                  >
-                    Notify Me
-                  </button>
-                </form>
-              ) : (
-                <div className="text-[var(--accent)] font-medium py-3 animate-fadeIn luxury-text-gradient text-sm md:text-base">
-                  Thank you! We&apos;ll keep you updated.
-                </div>
-              )}
-            </div>
-          </div>
+          <SignupForm />
         </div>
 
-        {/* Decorative elements */}
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[var(--background)] to-transparent"></div>
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent)]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[var(--accent)]/5 rounded-full blur-3xl"></div>
+
       </main>
     </div>
   );
