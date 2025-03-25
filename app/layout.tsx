@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cinzel, Poppins } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/lib/providers";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -45,7 +46,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${cinzel.variable} ${poppins.variable} antialiased`}>
+        <Providers>
         {children}
+        </Providers>
       </body>
     </html>
   );

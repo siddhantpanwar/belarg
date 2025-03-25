@@ -36,6 +36,12 @@
   --color-foreground: var(--foreground);
   --font-heading: 'Cinzel', serif;
   --font-body: 'Poppins', sans-serif;
+  --Brand-black: #1A1A1A;
+  --Brand: #8B4513;
+  --desertgold: #D4A017;
+  --cream: #F5F1E9;
+  --emerald: #2E8B57;
+  --gold: #C6A55C;
 }
 
 @media (prefers-color-scheme: dark) {

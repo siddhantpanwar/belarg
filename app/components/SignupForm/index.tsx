@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { subscriberService } from "@/lib/appwrite";
 
 export default function SignupForm() {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState(""); // Add state for name
+  const [name, setName] = useState(""); 
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -15,15 +16,30 @@ export default function SignupForm() {
     setError("");
 
     try {
-      // Add debugging log
-      console.log('Submitting form with:', { email, name });
+      // Check if email is already subscribed
+      const isAlreadySubscribed = await subscriberService.isEmailSubscribed(email);
       
+      if (isAlreadySubscribed) {
+        // If already subscribed, show success but don't add duplicate
+        setIsSubmitted(true);
+        setEmail("");
+        setName("");
+        return;
+      }
+      
+      // Add to Appwrite database
+      await subscriberService.addSubscriber({
+        name: name.trim(),
+        email: email.trim()
+      });
+      
+      // Send welcome email via API route
       const response = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           email, 
-          name: name.trim() // Ensure name is trimmed
+          name: name.trim()
         }),
       });
 
@@ -44,7 +60,7 @@ export default function SignupForm() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4">
+    <div className="mx-auto max-w-2xl">
       <div className="p-4 md:p-8 rounded-xl backdrop-blur-sm border-[var(--saddle-brown)] border-1">
         {!isSubmitted ? (
           <form

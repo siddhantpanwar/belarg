@@ -7,43 +7,47 @@ import {
   Preview,
   Text,
   Font,
-  Img,
+  Button,
+  Hr,
+  Img
 } from "@react-email/components";
-
 import * as React from "react";
 
+// Remove this import
+// import Image from "next/image";
 
-interface WelcomeEmailProps {
-  userEmail?: string;
-  userName?: string;  // Add userName parameter back
+interface DiscountEmailProps {
+  userName?: string;
+  discountCode?: string;
+  discountAmount?: number;
 }
-
 
 const socialMediaButtons = [
   {
     href: "https://belarg.com/",
     iconSrc:
       "https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742621186/BELARG/Social%20Icons/sci9xunpbleuoyeibast.png",
-    alt: "Website", // Fixed alt text
+    alt: "Website",
   },
   {
-    href: "https://instagram.com/belargluxury", // Updated Instagram link
+    href: "https://instagram.com/belargluxury",
     iconSrc:
       "https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742621191/BELARG/Social%20Icons/cclfxi5nsewmzvsqxejr.png",
     alt: "Instagram",
   },
   {
-    href: "https://facebook.com/belargluxury", // Updated Facebook link
+    href: "https://facebook.com/belargluxury",
     iconSrc:
       "https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742621191/BELARG/Social%20Icons/cumkpo5wkpu6yshfpklx.png",
     alt: "Facebook",
   },
 ];
 
-export const WelcomeEmail = ({ userEmail, userName }: WelcomeEmailProps) => {
-  // Add console log for debugging
-  console.log('WelcomeEmail received:', { userEmail, userName });
-  
+export const DiscountEmail = ({ 
+  userName, 
+  discountCode = "BELARG-DISCOUNT",
+  discountAmount = 50
+}: DiscountEmailProps) => {
   // Ensure userName is properly handled
   const displayName = userName && userName.trim() !== '' ? userName : 'Valued Customer';
   
@@ -70,13 +74,17 @@ export const WelcomeEmail = ({ userEmail, userName }: WelcomeEmailProps) => {
         fontStyle="normal"
       />
       <Head>
-        <title>Welcome to Belarg Luxury</title>
+        <title>Your Exclusive Belarg Discount</title>
         <meta name="color-scheme" content="light" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <Preview>Welcome to Belarg - Premium Leather Craftsmanship</Preview>
+      <Preview>
+        Your Exclusive {discountAmount.toString()}% Discount Code for
+        Belarg&apos;s Premium Leather Collection
+      </Preview>
       <Body style={main}>
         <Container style={container}>
+          {/* Replace Image with img */}
           <Img
             src="https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742620981/BELARG/ky1qk0gdwik3u9vcv9hc.png"
             width="180"
@@ -95,19 +103,31 @@ export const WelcomeEmail = ({ userEmail, userName }: WelcomeEmailProps) => {
               margin: "0 0 24px",
             }}
           >
-            Welcome to Belarg
+            Your Exclusive Discount
           </Heading>
-          <Text style={subheading}>Premium Leather Craftsmanship</Text>
+          <Text style={subheading}>Premium Leather Collection</Text>
 
           <Container style={contentContainer}>
             <Text style={paragraph}>Dear {displayName},</Text>
             <Text style={paragraph}>
-              Thank you for joining the Belarg family. We&apos;re delighted to
-              welcome you to our world of premium leather craftsmanship, where
-              tradition meets contemporary elegance.
+              Thank you for your interest in Belarg&apos;s premium leather
+              collection. We&apos;re excited to offer you an exclusive discount
+              on your first purchase when we launch.
             </Text>
+
+            {/* Discount code display */}
+            <Container style={discountContainer}>
+              <Text style={discountLabel}>
+                Your {discountAmount}% Discount Code:
+              </Text>
+              <Text style={discountCodestyle}>{discountCode}</Text>
+              <Text style={discountNote}>
+                Save this code to use when our store launches
+              </Text>
+            </Container>
+
             <Text style={paragraph}>
-              As a subscriber, you&apos;ll enjoy exclusive benefits:
+              As a valued member of our community, you&apos;ll also enjoy:
             </Text>
             <Container style={benefitsContainer}>
               <Text style={benefitItem}>• Early access to new collections</Text>
@@ -118,10 +138,17 @@ export const WelcomeEmail = ({ userEmail, userName }: WelcomeEmailProps) => {
             </Container>
           </Container>
 
-          <Container style={divider} />
+          <Container style={ctaContainer}>
+            <Button href="https://belarg.com" style={ctaButton}>
+              Visit Our Website
+            </Button>
+          </Container>
+
+          <Hr style={divider} />
 
           <Container style={contactContainer}>
             <Text style={contactText}>
+              {/* Replace Image with img */}
               <Img
                 src="https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742621186/BELARG/Social%20Icons/ggxee7gtuddfz526phjj.png"
                 width="32"
@@ -132,6 +159,7 @@ export const WelcomeEmail = ({ userEmail, userName }: WelcomeEmailProps) => {
               +971 50 884 6907
             </Text>
             <Text style={contactText}>
+              {/* Replace Image with img */}
               <Img
                 src="https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742621186/BELARG/Social%20Icons/zndqiu0rrivavzrtdgba.png"
                 width="32"
@@ -146,6 +174,7 @@ export const WelcomeEmail = ({ userEmail, userName }: WelcomeEmailProps) => {
           <Container style={socialContainer}>
             {socialMediaButtons.map((button, index) => (
               <a key={index} href={button.href} style={socialLink}>
+                {/* Replace Image with img */}
                 <Img
                   src={button.iconSrc}
                   width="28"
@@ -185,7 +214,6 @@ const logo = {
   display: "block",
 };
 
-
 const paragraph = {
   fontSize: "16px",
   lineHeight: "26px",
@@ -194,7 +222,56 @@ const paragraph = {
   textAlign: "center" as const,
 };
 
-export default WelcomeEmail;
+const discountContainer = {
+  margin: "24px auto",
+  padding: "24px",
+  backgroundColor: "#FFFFFF",
+  borderRadius: "8px",
+  border: "1px solid #D4C3A3",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.05)",
+};
+
+const discountLabel = {
+  fontSize: "14px",
+  color: "#8B4513",
+  margin: "0 0 8px",
+};
+
+const discountCodestyle = {
+  fontSize: "28px",
+  fontFamily: "monospace",
+  fontWeight: "bold",
+  letterSpacing: "2px",
+  color: "#1A1A1A",
+  margin: "8px 0",
+  padding: "8px 16px",
+  backgroundColor: "#F5F1E9",
+  borderRadius: "4px",
+  display: "inline-block",
+};
+
+const discountNote = {
+  fontSize: "12px",
+  color: "#8B4513",
+  margin: "8px 0 0",
+  fontStyle: "italic",
+};
+
+const ctaContainer = {
+  margin: "32px auto",
+};
+
+const ctaButton = {
+  backgroundColor: "#8B4513",
+  color: "#FFFFFF",
+  padding: "12px 24px",
+  borderRadius: "4px",
+  fontWeight: "500",
+  fontSize: "16px",
+  textDecoration: "none",
+  textTransform: "uppercase" as const,
+  letterSpacing: "1px",
+};
 
 const contactContainer = {
   margin: "24px auto",
@@ -205,7 +282,7 @@ const contactText = {
   fontSize: "14px",
   lineHeight: "24px",
   color: "#8B4513",
-    margin: "8px 0",
+  margin: "8px 0",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -246,8 +323,8 @@ const benefitsContainer = {
   textAlign: "left" as const,
   margin: "16px auto 32px",
   padding: "16px 32px",
-  backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent white background
-  backgroundImage: "url('https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742622326/BELARG/Leather%20Textures/g2ldicy3pvudnen9vxpb.jpg')",
+  backgroundColor: "rgba(255, 255, 255, 0.9)",
+  backgroundimg: "url('https://res.cloudinary.com/dfy7w8ecf/img/upload/v1742622326/BELARG/Leather%20Textures/g2ldicy3pvudnen9vxpb.jpg')",
   backgroundSize: "cover",
   backgroundPosition: "center",
   borderRadius: "8px",
@@ -257,9 +334,8 @@ const benefitsContainer = {
 const benefitItem = {
   fontSize: "15px",
   lineHeight: "24px",
-  color: "#FFFFFF", // Changed to white for better contrast
+  color: "#FFFFFF",
   margin: "8px 0",
-  // textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)", // Added text shadow for better readability
 };
 
 const divider = {
@@ -280,3 +356,5 @@ const footerLink = {
   textDecoration: "underline",
   cursor: "pointer",
 };
+
+export default DiscountEmail;
