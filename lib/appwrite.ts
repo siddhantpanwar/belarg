@@ -4,15 +4,15 @@ import { Client, Account, Databases, ID, Query } from 'appwrite';
 const client = new Client();
 
 client
-  .setEndpoint('https://cloud.appwrite.io/v1') // Set your Appwrite endpoint
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || ''); // Set your project ID
+  .setEndpoint("https://cloud.appwrite.io/v1") // Set your Appwrite endpoint
+  .setProject(process.env.BELARG_APPWRITE_PROJECT_ID || ""); // Set your project ID
 
 // Initialize Appwrite services
 export const account = new Account(client);
 export const databases = new Databases(client);
 
 // Database and collection IDs
-export const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || '';
+export const DATABASE_ID = process.env.BELARG_APPWRITE_DATABASE_ID || "";
 export const DISCOUNT_COLLECTION_ID = "67e2b85100336ee8416c";
 export const SUBSCRIBERS_COLLECTION_ID = "67e2c87200092fc8326f";
 
