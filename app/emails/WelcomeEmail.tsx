@@ -247,7 +247,8 @@ const benefitsContainer = {
   margin: "16px auto 32px",
   padding: "16px 32px",
   backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent white background
-  backgroundImage: "url('https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742622326/BELARG/Leather%20Textures/g2ldicy3pvudnen9vxpb.jpg')",
+  backgroundImage:
+    "url('https://res.cloudinary.com/dfy7w8ecf/image/upload/v1742622326/BELARG/Leather%20Textures/g2ldicy3pvudnen9vxpb.jpg')",
   backgroundSize: "cover",
   backgroundPosition: "center",
   borderRadius: "8px",
