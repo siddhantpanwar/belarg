@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { subscriberService } from "@/lib/appwrite";
+// Remove the direct Appwrite import
+// import { subscriberService } from "@/lib/appwrite";
 
 export default function SignupForm() {
   const [email, setEmail] = useState("");
@@ -16,25 +17,58 @@ export default function SignupForm() {
     setError("");
 
     try {
-      // Check if email is already subscribed
-      const isAlreadySubscribed = await subscriberService.isEmailSubscribed(email);
+      // Check if already subscribed using server API
+      const checkResponse = await fetch("/api/subscribers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          email,
+          action: "check"
+        }),
+      });
       
-      if (isAlreadySubscribed) {
-        // If already subscribed, show success but don't add duplicate
+      const checkData = await checkResponse.json();
+      
+      if (checkData.exists) {
+        // Already subscribed, just send welcome email
+        const emailResponse = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            email, 
+            name: name.trim()
+          }),
+        });
+        
+        if (!emailResponse.ok) {
+          const emailData = await emailResponse.json();
+          throw new Error(emailData.error || "Failed to send welcome email");
+        }
+        
         setIsSubmitted(true);
         setEmail("");
         setName("");
         return;
       }
       
-      // Add to Appwrite database
-      await subscriberService.addSubscriber({
-        name: name.trim(),
-        email: email.trim()
+      // Add subscriber using server API
+      const addResponse = await fetch("/api/subscribers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          email,
+          name: name.trim(),
+          action: "add"
+        }),
       });
       
-      // Send welcome email via API route
-      const response = await fetch("/api/subscribe", {
+      if (!addResponse.ok) {
+        const addData = await addResponse.json();
+        throw new Error(addData.error || "Failed to add subscription");
+      }
+      
+      // Send welcome email
+      const emailResponse = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -42,17 +76,18 @@ export default function SignupForm() {
           name: name.trim()
         }),
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
+      
+      if (!emailResponse.ok) {
+        const emailData = await emailResponse.json();
+        console.error("Email sending failed:", emailData);
+        // Continue anyway since the subscription was successful
       }
 
       setIsSubmitted(true);
       setEmail("");
       setName("");
     } catch (err) {
+      console.error("Subscription error:", err);
       setError(err instanceof Error ? err.message : "Failed to subscribe");
     } finally {
       setIsLoading(false);

@@ -5,7 +5,8 @@ const client = new Client();
 
 client
   .setEndpoint("https://cloud.appwrite.io/v1") // Set your Appwrite endpoint
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || ""); // Set your project ID
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "")
+  // Note: setSelfSigned is no longer needed in newer Appwrite SDK versions
 
 // Initialize Appwrite services
 export const account = new Account(client);
