@@ -40,12 +40,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${cinzel.variable} ${poppins.variable} antialiased`}>
+      <body
+        className={`${cinzel.variable} ${poppins.variable} font-sans bg-[var(--background)] text-[var(--foreground)]`}
+        suppressHydrationWarning // Add this attribute to suppress hydration warnings
+      >
         <Providers>
         {children}
         </Providers>
