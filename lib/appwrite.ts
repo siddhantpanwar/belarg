@@ -27,14 +27,35 @@ export const discountService = {
     discountAmount: number;
     campaignSource: string;
   }) {
-    return databases.createDocument(
-      DATABASE_ID,
-      DISCOUNT_COLLECTION_ID,
-      ID.unique(),
-      {
-        ...data,
+    // Check if email already has a discount code
+    try {
+      const existingDiscounts = await this.getDiscountsByEmail(data.email);
+      
+      if (existingDiscounts.length > 0) {
+        // Email already has a discount code, return the existing one with a flag
+        // but don't include the actual discount code to prevent reuse
+        return {
+          documentId: existingDiscounts[0].$id,
+          email: data.email,
+          name: data.name,
+          alreadyExists: true, // Flag to indicate this is an existing discount
+          preventCodeDisplay: true // Flag to prevent displaying the code
+        };
       }
-    );
+      
+      // If no existing discount, create a new one
+      return databases.createDocument(
+        DATABASE_ID,
+        DISCOUNT_COLLECTION_ID,
+        ID.unique(),
+        {
+          ...data,
+        }
+      );
+    } catch (error) {
+      console.error('Error checking existing discounts:', error);
+      throw error;
+    }
   },
 
   // Get a discount code by code

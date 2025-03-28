@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BelargLogo from "../public/Brand_Logos/Belarg_Mark.svg";
 import Leather1 from "../public/Leather_Textures/L1.jpg";
-import SignupForm from "./components/SignupForm";
+import SignupForm from "../components/lead-magnets/SignupForm";
 
 export default function Home() {
   return (
@@ -75,7 +75,7 @@ export default function Home() {
                     </div>
 
                     <Link
-                      href="/discount-campaign"
+                      href="/luxury-discount"
                       className="relative inline-flex items-center px-4 py-2 overflow-hidden text-sm font-medium transition-all bg-[var(--gold)] text-white rounded-md hover:bg-[var(--gold)]/90 group-hover:shadow-md"
                     >
                       <span>Claim Now</span>
@@ -98,14 +98,14 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Early Access Campaign Card */}
+              {/* Catalogue Download Card (Previously Early Access) */}
               <div className="group relative overflow-hidden rounded-xl border border-[var(--accent)]/20 bg-[var(--card)]/60 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:shadow-[var(--accent)]/10 hover:border-[var(--accent)]/40">
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-[var(--gold)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="p-6 md:p-8">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="text-lg md:text-xl font-medium text-[var(--foreground)]">
-                      Early Access
+                      Product Catalogue
                     </h4>
                     <span className="px-3 py-1 text-xs font-medium rounded-full bg-[var(--accent)]/20 text-[var(--accent)]">
                       Exclusive
@@ -113,20 +113,21 @@ export default function Home() {
                   </div>
 
                   <p className="text-sm md:text-base mb-6 opacity-80 text-left">
-                    Join our exclusive early access program and be the first to
-                    shop our collection before the official launch.
+                    Get a sneak peek at our upcoming leather collection.
+                    Download our exclusive product catalogue to explore our
+                    designs before launch.
                   </p>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1 text-[var(--accent)]">
-                      <span className="text-sm">Priority Access</span>
+                      <span className="text-sm">PDF Download</span>
                     </div>
 
                     <Link
-                      href="/"
+                      href="/catalogue-download"
                       className="relative inline-flex items-center px-4 py-2 overflow-hidden text-sm font-medium transition-all bg-[var(--accent)] text-white rounded-md hover:bg-[var(--accent)]/90 group-hover:shadow-md"
                     >
-                      <span>Join Waitlist</span>
+                      <span>Get Catalogue</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4 ml-2 animate-pulse"
@@ -138,7 +139,7 @@ export default function Home() {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                         />
                       </svg>
                     </Link>
